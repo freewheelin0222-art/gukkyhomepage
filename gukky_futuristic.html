@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TATTOO STUDIO Gukky｜静岡市駿河区・完全予約制タトゥースタジオ</title>
+<meta name="description" content="静岡市駿河区の完全予約制タトゥースタジオ Gukky。カウンセリング無料・デザイン料無料・カラー料金無料。女性彫師在籍、見習いモニター募集中。オリジナルグッズ販売中。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Share+Tech+Mono&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070A14;
+  --surface:#0E1424;
+  --surface2:#131B31;
+  --line:#26304F;
+  --ink:#E8ECFA;
+  --dim:#94A0C4;
+  --jagua:#8B93FF;
+  --rose:#FF4D8D;
+  --glow:rgba(139,147,255,.35);
+  --radius:14px;
+  --disp:'Michroma',sans-serif;
+  --mono:'Share Tech Mono',monospace;
+  --body:'Zen Kaku Gothic New','Hiragino Kaku Gothic ProN',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--ink);font-family:var(--body);
+  line-height:1.9;font-size:15.5px;overflow-x:hidden;
+}
+::selection{background:var(--rose);color:#fff}
+
+/* ===== 背景レイヤー ===== */
+.bg-grid{
+  position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    linear-gradient(rgba(139,147,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(139,147,255,.05) 1px,transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 30%,transparent 80%);
+}
+.bg-aurora{
+  position:fixed;inset:-20%;z-index:-3;pointer-events:none;filter:blur(90px);opacity:.5;
+  background:
+    radial-gradient(35% 30% at 20% 15%,rgba(139,147,255,.30),transparent 70%),
+    radial-gradient(30% 28% at 80% 10%,rgba(255,77,141,.18),transparent 70%),
+    radial-gradient(40% 35% at 55% 90%,rgba(76,64,168,.22),transparent 70%);
+  animation:drift 26s ease-in-out infinite alternate;
+}
+@keyframes drift{to{transform:translate3d(3%,-2%,0) scale(1.06)}}
+@media (prefers-reduced-motion:reduce){
+  .bg-aurora{animation:none}
+  *{animation-duration:.001s!important;transition-duration:.001s!important}
+}
+
+/* ===== ナビ ===== */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  backdrop-filter:blur(14px);
+  background:rgba(7,10,20,.86);
+  border-bottom:1px solid var(--line);
+}
+.nav{
+  max-width:1160px;margin:0 auto;padding:0 20px;height:64px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  position:relative;
+}
+.brand{font-family:var(--disp);font-size:13px;letter-spacing:.18em;color:var(--ink);text-decoration:none;white-space:nowrap}
+.brand em{font-style:normal;color:var(--jagua)}
+
+/* CSSのみで動作するハンバーガーメニュー（JS不要） */
+#navToggle{display:none}
+.menu-btn{
+  display:none;background:none;border:1px solid var(--line);color:var(--ink);
+  border-radius:8px;padding:8px 12px;font-family:var(--mono);font-size:12px;
+  cursor:pointer;user-select:none;
+}
+.nav ul{display:flex;gap:22px;list-style:none}
+.nav a.link{
+  color:var(--dim);text-decoration:none;font-size:13px;letter-spacing:.06em;
+  transition:color .2s;white-space:nowrap;
+}
+.nav a.link:hover,.nav a.link:focus-visible{color:var(--jagua)}
+.nav .cta{
+  font-family:var(--mono);font-size:12px;letter-spacing:.1em;
+  color:#0A0E1A;background:var(--jagua);padding:9px 16px;border-radius:999px;
+  text-decoration:none;box-shadow:0 0 18px var(--glow);transition:transform .2s,box-shadow .2s;white-space:nowrap;
+}
+.nav .cta:hover{transform:translateY(-1px);box-shadow:0 0 26px var(--glow)}
+
+@media(max-width:1024px){
+  .nav ul{
+    display:flex;flex-direction:column;gap:0;
+    position:absolute;top:64px;left:0;right:0;
+    background:rgba(7,10,20,.98);border-bottom:1px solid var(--line);
+    padding:8px 0;max-height:0;overflow:hidden;
+    transition:max-height .3s ease;
+  }
+  .nav ul li{border-top:1px solid var(--line)}
+  .nav ul a.link{display:block;padding:14px 24px}
+  .menu-btn{display:block}
+  /* チェックボックスがONのとき、JS無しでもメニューが開く */
+  #navToggle:checked ~ ul{max-height:70vh;overflow-y:auto}
+}
+
+/* ===== 共通レイアウト ===== */
+main{max-width:1160px;margin:0 auto;padding:0 20px}
+section{padding:96px 0 24px;scroll-margin-top:80px}
+.eyebrow{
+  font-family:var(--mono);font-size:12px;letter-spacing:.28em;color:var(--jagua);
+  display:flex;align-items:center;gap:12px;margin-bottom:14px;
+}
+.eyebrow::after{content:"";height:1px;flex:1;max-width:140px;background:linear-gradient(90deg,var(--jagua),transparent)}
+h2{font-family:var(--disp);font-size:clamp(22px,3.4vw,32px);letter-spacing:.08em;font-weight:400;margin-bottom:10px}
+.lead{color:var(--dim);max-width:720px;margin-bottom:36px}
+.panel{
+  background:linear-gradient(180deg,var(--surface),rgba(14,20,36,.6));
+  border:1px solid var(--line);border-radius:var(--radius);
+  padding:28px;position:relative;
+}
+.panel::before,.panel::after{
+  content:"";position:absolute;width:14px;height:14px;border-color:var(--jagua);border-style:solid;opacity:.7;
+}
+.panel::before{top:-1px;left:-1px;border-width:2px 0 0 2px;border-radius:4px 0 0 0}
+.panel::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0;border-radius:0 0 4px 0}
+.tag{
+  display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+  color:var(--jagua);border:1px solid rgba(139,147,255,.4);border-radius:999px;
+  padding:3px 12px;background:rgba(139,147,255,.08);
+}
+.tag.rose{color:var(--rose);border-color:rgba(255,77,141,.45);background:rgba(255,77,141,.08)}
+.tag.off{color:var(--dim);border-color:var(--line);background:transparent}
+
+/* ===== HERO ===== */
+.hero{
+  min-height:100vh;      /* 古い端末向けフォールバック */
+  min-height:100svh;     /* 対応端末はこちらが優先される */
+  display:flex;flex-direction:column;justify-content:center;
+  padding:120px 0 60px;position:relative;
+}
+.hero .sys{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--dim);margin-bottom:22px}
+.hero .sys b{color:var(--rose);font-weight:400}
+.hero h1{
+  font-family:var(--disp);font-weight:400;
+  font-size:clamp(32px,7.2vw,84px);line-height:1.14;letter-spacing:.03em;
+}
+.hero h1 .grad{
+  background:linear-gradient(92deg,#DFE4FF 10%,var(--jagua) 55%,var(--rose) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 24px rgba(139,147,255,.35));
+}
+.hero .tagline{
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.32em;color:var(--dim);
+  margin-top:18px;text-transform:uppercase;
+}
+.hero .sub{margin-top:22px;color:var(--dim);max-width:640px}
+.hero .sub strong{color:var(--ink)}
+.hero .badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.hero .actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
+.btn{
+  font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-decoration:none;
+  padding:14px 26px;border-radius:999px;transition:transform .2s,box-shadow .2s,background .2s;
+  display:inline-block;
+}
+.btn.primary{background:var(--jagua);color:#0A0E1A;box-shadow:0 0 22px var(--glow)}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 0 34px var(--glow)}
+.btn.ghost{border:1px solid var(--line);color:var(--ink)}
+.btn.ghost:hover{border-color:var(--jagua);color:var(--jagua)}
+.scanline{
+  position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--jagua),var(--rose),transparent);
+  opacity:.8;
+}
+.ticker{
+  border-block:1px solid var(--line);overflow:hidden;white-space:nowrap;
+  font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--rose);
+  padding:10px 0;margin-top:0;
+}
+.ticker span{display:inline-block;padding-left:100%;animation:scroll 28s linear infinite}
+@keyframes scroll{to{transform:translateX(-100%)}}
+
+/* ===== ABOUT ===== */
+.about-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px}
+@media(max-width:860px){.about-grid{grid-template-columns:1fr}}
+.spec{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.spec li{
+  font-size:13.5px;color:var(--ink);background:rgba(139,147,255,.06);
+  border:1px solid var(--line);border-radius:10px;padding:10px 14px;
+  display:flex;align-items:center;gap:8px;
+}
+.spec li::before{content:"◎";color:var(--jagua)}
+@media(max-width:560px){.spec{grid-template-columns:1fr}}
+.about p{margin-bottom:1em;color:var(--dim)}
+.about p strong{color:var(--ink)}
+
+/* ===== MENU ===== */
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.menu-card h3{font-family:var(--disp);font-weight:400;font-size:16px;letter-spacing:.08em;margin:10px 0 4px}
+.menu-card .desc{font-size:13.5px;color:var(--dim);margin:12px 0}
+.price{list-style:none;margin-top:14px;border-top:1px dashed var(--line)}
+.price li{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:9px 2px;border-bottom:1px dashed var(--line);font-size:14px;gap:10px;
+}
+.price li b{font-family:var(--mono);font-weight:400;color:var(--jagua);letter-spacing:.05em;white-space:nowrap}
+.menu-card.suspended{opacity:.55}
+.menu-card.suspended .price li b{color:var(--dim)}
+.note{font-size:12.5px;color:var(--dim);margin-top:12px}
+.hygiene{margin-top:22px}
+.hygiene p{color:var(--dim);font-size:13.5px}
+
+/* ===== GOODS ===== */
+.goods-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.goods-card{display:flex;flex-direction:column}
+.goods-card .thumb{
+  height:130px;border-radius:10px;margin-bottom:16px;
+  display:flex;align-items:center;justify-content:center;font-size:42px;
+  background:linear-gradient(135deg,rgba(139,147,255,.18),rgba(255,77,141,.14));
+  border:1px solid var(--line);
+}
+.goods-card h3{font-family:var(--disp);font-weight:400;font-size:15px;letter-spacing:.05em;margin:2px 0 6px}
+.goods-card .desc{font-size:13px;color:var(--dim);flex:1;margin-bottom:14px}
+.goods-card .price-single{
+  display:flex;justify-content:space-between;align-items:baseline;
+  font-family:var(--mono);font-size:15px;color:var(--jagua);
+  border-top:1px dashed var(--line);padding-top:12px;margin-top:auto;
+}
+.goods-note{margin-top:22px}
+
+/* ===== ARTIST ===== */
+.artist-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.artist-card .role{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--rose)}
+.artist-card h3{font-family:var(--disp);font-weight:400;font-size:20px;letter-spacing:.06em;margin:6px 0 2px}
+.artist-card .kana{font-size:13px;color:var(--dim);margin-bottom:14px}
+.artist-card p{font-size:13.5px;color:var(--dim);margin-bottom:.9em}
+.artist-card p strong{color:var(--ink)}
+.quote{
+  border-left:2px solid var(--jagua);padding:8px 14px;margin:14px 0;
+  background:rgba(139,147,255,.05);border-radius:0 8px 8px 0;font-size:13px;color:var(--dim);
+}
+.quote b{color:var(--jagua);font-weight:500}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.chip{
+  font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-decoration:none;
+  border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:8px 16px;
+  transition:border-color .2s,color .2s,box-shadow .2s;display:inline-block;
+}
+.chip:hover{border-color:var(--rose);color:var(--rose);box-shadow:0 0 14px rgba(255,77,141,.25)}
+
+/* ===== FLOW ===== */
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.step{position:relative;padding-top:16px}
+.step .num{
+  font-family:var(--mono);font-size:30px;color:transparent;
+  -webkit-text-stroke:1px var(--jagua);letter-spacing:.05em;
+}
+.step h3{font-size:15px;margin:8px 0 8px;letter-spacing:.04em}
+.step p{font-size:13px;color:var(--dim)}
+
+/* ===== NOTES ===== */
+.acc{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--surface)}
+.acc details{border-bottom:1px solid var(--line)}
+.acc details:last-child{border-bottom:none}
+.acc summary{
+  cursor:pointer;list-style:none;padding:18px 22px;display:flex;align-items:center;gap:14px;
+  font-size:14.5px;letter-spacing:.04em;transition:background .2s;
+}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary:hover{background:rgba(139,147,255,.05)}
+.acc summary .code{font-family:var(--mono);font-size:11px;color:var(--jagua);letter-spacing:.2em}
+.acc summary::after{content:"+";margin-left:auto;font-family:var(--mono);color:var(--jagua);font-size:18px;transition:transform .2s}
+.acc details[open] summary::after{transform:rotate(45deg)}
+.acc .body{padding:0 22px 22px;color:var(--dim);font-size:13.5px}
+.acc .body li{margin:0 0 .7em 1.2em}
+.alert{
+  display:inline-flex;align-items:center;gap:8px;color:var(--rose);
+  font-family:var(--mono);font-size:12px;letter-spacing:.18em;margin-bottom:18px;
+}
+.alert::before{content:"▲"}
+
+/* ===== ACCESS / CONTACT ===== */
+.access-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:860px){.access-grid{grid-template-columns:1fr}}
+.info-list{list-style:none}
+.info-list li{
+  display:grid;grid-template-columns:100px 1fr;gap:12px;padding:12px 0;
+  border-bottom:1px dashed var(--line);font-size:14px;
+}
+.info-list li span{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--jagua);padding-top:4px}
+.info-list li div{color:var(--dim)}
+.info-list li div strong{color:var(--ink)}
+.map{
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;min-height:300px;position:relative;
+}
+.map iframe{width:100%;height:100%;min-height:300px;border:0;filter:invert(90%) hue-rotate(190deg) saturate(.7) brightness(.9)}
+.map a.maplink{
+  position:absolute;right:12px;bottom:12px;z-index:2;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-decoration:none;
+  background:rgba(7,10,20,.85);color:var(--jagua);border:1px solid var(--jagua);
+  border-radius:999px;padding:7px 14px;
+}
+.contact-panel{text-align:center;padding:48px 22px}
+.contact-panel h2{margin-bottom:14px}
+.contact-panel p{color:var(--dim);max-width:560px;margin:0 auto 8px}
+.contact-actions{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:30px}
+.tel{
+  font-family:var(--mono);font-size:clamp(20px,4vw,32px);letter-spacing:.06em;color:var(--ink);
+  text-decoration:none;display:inline-block;margin-top:22px;
+}
+.tel:hover{color:var(--jagua)}
+
+/* ===== FOOTER ===== */
+footer{border-top:1px solid var(--line);margin-top:80px;padding:36px 20px 44px}
+.foot{max-width:1160px;margin:0 auto;display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center}
+.foot .fbrand{font-family:var(--disp);font-size:12px;letter-spacing:.18em}
+.foot .meta{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--dim)}
+.foot .socials{display:flex;gap:12px;flex-wrap:wrap}
+
+/* ===== TOP へ戻るボタン ===== */
+.totop{
+  position:fixed;right:16px;bottom:16px;z-index:40;
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(14,20,36,.9);border:1px solid var(--line);color:var(--jagua);
+  text-decoration:none;font-size:14px;backdrop-filter:blur(6px);
+  transition:transform .2s,border-color .2s,opacity .3s;opacity:0;pointer-events:none;
+}
+.totop.show{opacity:1;pointer-events:auto}
+.totop:hover{transform:translateY(-3px);border-color:var(--jagua)}
+
+/*
+  ===== スクロール演出（プログレッシブ・エンハンスメント） =====
+  重要：デフォルトは常に「見える状態」にする。
+  JSが正常に動いた場合のみ .rev-init を付与して初期状態を隠し、
+  IntersectionObserverが可視域に入ったことを検知した時点で .in を付与して表示する。
+  この構造にすることで、JSが動かない端末・環境でも最初からコンテンツが表示される。
+*/
+.rev-init{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.rev-init.in{opacity:1;transform:none}
+
+a:focus-visible,button:focus-visible,summary:focus-visible,label:focus-visible{outline:2px solid var(--rose);outline-offset:3px;border-radius:6px}
+</style>
+</head>
+<body>
+<div class="bg-aurora" aria-hidden="true"></div>
+<div class="bg-grid" aria-hidden="true"></div>
+
+<header>
+  <nav class="nav" aria-label="メインナビゲーション">
+    <a class="brand" href="#top">TATTOO STUDIO <em>GUKKY</em></a>
+
+    <!-- JS不要のCSSのみで動くハンバーガーメニュー -->
+    <input type="checkbox" id="navToggle">
+    <label class="menu-btn" for="navToggle" role="button" tabindex="0" aria-controls="navlist">MENU</label>
+
+    <ul id="navlist">
+      <li><a class="link" href="#about">About</a></li>
+      <li><a class="link" href="#menu">Menu &amp; Price</a></li>
+      <li><a class="link" href="#goods">Goods</a></li>
+      <li><a class="link" href="#artist">Artist</a></li>
+      <li><a class="link" href="#flow">Flow</a></li>
+      <li><a class="link" href="#notes">注意事項</a></li>
+      <li><a class="link" href="#access">Access</a></li>
+      <li><a class="link" href="https://bas-gukky.crayonsite.com/blog/" target="_blank" rel="noopener">お知らせ📢</a></li>
+    </ul>
+    <a class="cta" href="#contact">RESERVE ▸</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" style="padding-top:64px">
+    <p class="sys">SHIZUOKA / SURUGA-KU — <b>EST.2015 ▸ 11TH ANNIVERSARY 2026 🌹</b></p>
+    <h1><span class="grad">TATTOO STUDIO</span><br>GUKKY</h1>
+    <p class="tagline">— ink the future on your skin —</p>
+    <p class="sub"><strong>静岡市駿河区の完全予約制タトゥースタジオ。</strong><br>
+    女性彫師Nonと見習い3名が、小さなアットホームな空間で、お客様一人一人に丁寧な接客・技術をお届けします。相談のみのご来店も歓迎です🕊️</p>
+    <div class="badges">
+      <span class="tag">カウンセリング無料</span>
+      <span class="tag">デザイン料無料</span>
+      <span class="tag">カラー料金無料</span>
+      <span class="tag">駐車場完備</span>
+      <span class="tag">喫煙スペース有</span>
+      <span class="tag">お子様連れOK</span>
+      <span class="tag">前金なし</span>
+    </div>
+    <div class="actions">
+      <a class="btn primary" href="#contact">相談・予約する ▸</a>
+      <a class="btn ghost" href="#menu">MENU &amp; PRICE</a>
+    </div>
+    <div class="scanline" aria-hidden="true"></div>
+  </section>
+
+  <div class="ticker" aria-label="お知らせ"><span>&gt;&gt; NOW RECRUITING ── 現在、見習い彫師が特別な価格でモニター様を募集しております。詳しくはArtistの見習い紹介をご覧下さい ── モニター料金 ¥3,000〜 ── オリジナルグッズ販売中 ── ご相談のみのご来店も歓迎 &gt;&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt; NOW RECRUITING ── 現在、見習い彫師が特別な価格でモニター様を募集しております。詳しくはArtistの見習い紹介をご覧下さい ── モニター料金 ¥3,000〜 ── オリジナルグッズ販売中 ── ご相談のみのご来店も歓迎 &gt;&gt;</span></div>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about" class="rev-init">
+    <p class="eyebrow">SYS.01 // ABOUT</p>
+    <h2>当店について</h2>
+    <p class="lead">🌹2026年、開業11周年。ホームページをご覧頂き有難う御座います。</p>
+    <div class="about-grid">
+      <div class="panel about">
+        <p>当店は📍<strong>静岡市駿河区にある完全予約制タトゥースタジオ</strong>です。初めての方でも安心してご検討頂けます。</p>
+        <p>お客様の中には「デザインがまだ決まっていない」「サイズや位置で迷っている」「まずは話だけ聞いてみたい」という方もいるかと思いますが、<strong>そんな状態でも問題ありません◎</strong></p>
+        <p>ご相談のみのご来店も可能ですので、「まず話してみたい」という方も歓迎しております💭 無理な勧誘や当日施術の強制は一切ありません。<strong>ご自身のペースでゆっくりご検討頂けます🕊️</strong></p>
+        <p>当スタジオは<strong>女性彫師も在籍</strong>しておりますので、不安や抵抗があるお客様でも安心して通えるスタジオです。女性彫師（Non）＋見習い3名（男性2名・女性1名）で運営しており、小さなスタジオですがスタッフ同士の距離も近く、落ち着いて過ごして頂ける<strong>アットホームな雰囲気</strong>を大切にしています。賑やかな雰囲気が苦手な方でも通いやすい空間です。</p>
+        <p>勿論、男性のお客様も女性スタッフにご予約可能です。女性・男性どちらのお客様も安心してご来店頂けます。不安な事やわからない事がありましたら、お気軽にお問い合わせ下さい。</p>
+      </div>
+      <div class="panel">
+        <p class="eyebrow" style="margin-bottom:18px">STUDIO SPEC</p>
+        <ul class="spec">
+          <li>カウンセリング無料</li>
+          <li>デザイン料無料</li>
+          <li>カラー料金無料</li>
+          <li>無料駐車場完備</li>
+          <li>喫煙スペース有り</li>
+          <li>お子様連れOK</li>
+          <li>前金なし</li>
+          <li>相談のみの来店OK</li>
+        </ul>
+        <p class="note" style="margin-top:18px">〜Instagramにて施術写真更新中〜<br>〜ブログで毎月の営業日を更新しています〜</p>
+        <div class="links">
+          <a class="chip" href="https://www.instagram.com/tattoo_studio_gukky" target="_blank" rel="noopener">◎ Instagram</a>
+          <a class="chip" href="https://bas-gukky.crayonsite.com/blog/" target="_blank" rel="noopener">◎ BLOG（重要なお知らせのみ更新）</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MENU ================= -->
+  <section id="menu" class="rev-init">
+    <p class="eyebrow">SYS.02 // MENU &amp; PRICE</p>
+    <h2>メニュー＆料金</h2>
+    <p class="lead">小さなものから大きなものまで対応しております🦎 Nonと見習いでは料金が異なります。デザイン料／カラー料金は無料です。各メニューで使用する保護シートやジェルなどの消耗品も全て無料です。</p>
+
+    <div class="menu-grid">
+      <article class="panel menu-card">
+        <span class="tag">MAIN MENU</span>
+        <h3>TATTOO</h3>
+        <p class="desc">小さなワンポイントから大きな作品まで。ご確認の上、お問い合わせお願い致します。</p>
+        <ul class="price">
+          <li>【Non】コインサイズ<b>¥10,000</b></li>
+          <li>【Non】名刺サイズ<b>¥30,000</b></li>
+          <li>【Non】ハガキサイズ<b>¥50,000</b></li>
+          <li>【見習い】モニター価格<b>¥3,000〜</b></li>
+        </ul>
+        <p class="note">見習いにもご予約可能です。見習いごとに料金が異なりますので、Artistのページから各見習いにお問い合わせ下さい。<br>※記載の料金は基本料金です。デザインにより料金が変動する場合が御座います。</p>
+      </article>
+
+      <article class="panel menu-card">
+        <span class="tag rose">👾 Non指名限定</span>
+        <h3>JAGUA TATTOO</h3>
+        <p class="desc">2週間で消えるジャグアタトゥー。18歳未満でもご予約可能です。天然染料「ジュニパーアメリカーナ」というフルーツの染色能力で肌を染め上げるフェイクタトゥー。針を一切使用せず痛みは全く無し。紺色〜黒に近い紺に染まるため、より本物に近い仕上がりに。「本物を入れたいけど部位やサイズがまだ不安…」という方にもオススメ！</p>
+        <ul class="price">
+          <li>コインサイズ<b>¥4,000</b></li>
+          <li>名刺サイズ<b>¥6,000</b></li>
+          <li>ハガキサイズ<b>¥8,000</b></li>
+        </ul>
+        <p class="note">★インク成分：ジュニパーアメリカーナ・キサンタンガム・ソルビン酸カリウム・クエン酸・ローズマリーオイル<br>◆持続期間は個人差がありますが大体2週間程度。紺色以外の色は着けられませんのでご注意下さい。詳しくはNonまで！</p>
+      </article>
+
+      <article class="panel menu-card">
+        <span class="tag rose">👾 Non指名限定</span>
+        <h3>アートメイク</h3>
+        <p class="desc">男性・女性ともに眉、アイライン、ほくろのタトゥーも施術可能です。カラーはお選び頂けます！</p>
+        <ul class="price">
+          <li>眉（両眉・2回分）<b>¥30,000</b></li>
+          <li>アイライン（両目）<b>¥40,000</b></li>
+          <li>ほくろ<b>¥6,000</b></li>
+        </ul>
+        <p class="note">◆眉などの施術写真はInstagramをご覧下さい。詳しくはNonまでお問い合わせ下さい！</p>
+      </article>
+
+      <article class="panel menu-card suspended">
+        <span class="tag off">⛔ 現在中止中</span>
+        <h3>FAKE TATTOO</h3>
+        <p class="desc">肌の上に直接インクを吹き付けて施術。持続期間は2日〜4.5日程ですが、インクの種類が豊富でカラーペイントが可能。ライブやイベント、パーティなど短期間でカラーペイントをしたい方向け。※摩擦に弱い為、お手入れにより持続期間が異なります。</p>
+        <ul class="price">
+          <li>コインサイズ<b>¥1,000</b></li>
+          <li>名刺サイズ<b>¥2,500</b></li>
+          <li>ハガキサイズ<b>¥4,000</b></li>
+        </ul>
+      </article>
+
+      <article class="panel menu-card suspended">
+        <span class="tag off">⛔ 現在中止中（Non指名限定）</span>
+        <h3>SKIN COVER</h3>
+        <p class="desc">タトゥー・痣・シミ・ほくろ・傷痕・肉割れ痕・にきび痕・赤みなどを肌の色に合わせて一時的にカバー。冠婚葬祭・温泉・プール・スポーツなどにも。インクを調合しお客様の肌色に合わせるため、スキンシールやファンデーションより目立ちにくく気付かれにくい仕上がり。耐水性があり温泉・プールもOK。持続は2日〜4.5日程（摩擦に弱い為お手入れにより変動）。</p>
+        <ul class="price">
+          <li>コインサイズ<b>¥3,000</b></li>
+          <li>名刺サイズ<b>¥6,000</b></li>
+          <li>ハガキサイズ<b>¥9,000</b></li>
+          <li>ハガキ2枚分<b>¥15,000</b></li>
+          <li>ハガキ3枚<b>¥22,000</b></li>
+          <li>A4サイズ<b>¥28,000</b></li>
+        </ul>
+        <p class="note">上記以上のサイズはご相談下さい。タトゥーカバー等の写真はInstagramへ。</p>
+      </article>
+
+      <article class="panel menu-card suspended">
+        <span class="tag off">⛔ 現在中止中（Non指名限定）</span>
+        <h3>MATERNITY ART</h3>
+        <p class="desc">赤ちゃんがお腹にいる期間限定で撮影・施術できるマタニティペイント。お好みのデザインを描き上げます。</p>
+        <ul class="price">
+          <li>どんなペイントでも一律<b>¥10,000</b></li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="panel hygiene rev-init" style="margin-top:22px">
+      <p class="eyebrow" style="margin-bottom:14px">HYGIENE PROTOCOL // 衛生面</p>
+      <p>使用する針、インク、キャップ、ビニール等、使い捨てに出来るものは<strong style="color:var(--ink)">全て使い捨て</strong>にしております。「超音波洗浄装置」で洗浄後、「オートクレーブ」にて滅菌処理をし、殺菌線消毒器にて保管しております。その他、施術中にグローブで触る器具や施術台については、施術中お客様が触れるすべてのものをフィルムでカバーし、施術後はフィルムを捨て、すべて殺菌消毒しております。</p>
+    </div>
+  </section>
+
+  <!-- ================= GOODS ================= -->
+  <section id="goods" class="rev-init">
+    <p class="eyebrow">SYS.03 // GOODS</p>
+    <h2>オリジナルグッズ販売</h2>
+    <p class="lead">スタジオオリジナルのグッズも店頭にて販売中です🦎 施術の記念に、またアフターケアにもぜひご活用下さい。</p>
+
+    <div class="goods-grid">
+      <article class="panel goods-card">
+        <div class="thumb">🧴</div>
+        <span class="tag">CARE</span>
+        <h3>オリジナルアフターケアクリーム</h3>
+        <p class="desc">施術後の肌に優しい低刺激処方。乾燥や色の定着が気になる方におすすめです。</p>
+        <div class="price-single"><span>単品</span><b>¥1,500</b></div>
+      </article>
+
+      <article class="panel goods-card">
+        <div class="thumb">🏷️</div>
+        <span class="tag">STICKER</span>
+        <h3>ロゴステッカー</h3>
+        <p class="desc">Gukkyのロゴをあしらった箔押しステッカー。全2色（インディゴ／ローズ）展開です。</p>
+        <div class="price-single"><span>1枚</span><b>¥500</b></div>
+      </article>
+
+      <article class="panel goods-card">
+        <div class="thumb">👕</div>
+        <span class="tag">APPAREL</span>
+        <h3>オリジナルTシャツ</h3>
+        <p class="desc">NonデザインのグラフィックTシャツ。S〜XLまで展開、在庫は店頭でご確認下さい。</p>
+        <div class="price-single"><span>単品</span><b>¥4,000</b></div>
+      </article>
+
+      <article class="panel goods-card">
+        <div class="thumb">🔑</div>
+        <span class="tag">ACCESSORY</span>
+        <h3>アクリルキーホルダー</h3>
+        <p class="desc">人気作品をモチーフにしたアクリルキーホルダー。全5種、ランダム封入です。</p>
+        <div class="price-single"><span>単品</span><b>¥800</b></div>
+      </article>
+
+      <article class="panel goods-card">
+        <div class="thumb">🖊️</div>
+        <span class="tag rose">JAGUA</span>
+        <h3>ジャグアタトゥー用ミニインク</h3>
+        <p class="desc">自宅で楽しめる少量サイズのジャグア染料キット。使い方はご来店時に説明致します。</p>
+        <div class="price-single"><span>単品</span><b>¥2,000</b></div>
+      </article>
+
+      <article class="panel goods-card">
+        <div class="thumb">🗒️</div>
+        <span class="tag off">NEW</span>
+        <h3>デザインアートブック</h3>
+        <p class="desc">Nonが手掛けたデザイン原画を収録したポストカードブック。数量限定販売です。</p>
+        <div class="price-single"><span>単品</span><b>¥1,200</b></div>
+      </article>
+    </div>
+
+    <p class="note goods-note">◆グッズは店頭でのみ販売しております（オンライン販売は行っておりません）。◆在庫状況は日々変動しますので、事前にInstagramまたはLINEにてご確認頂けますと確実です。◆施術のご予約と同時に購入も可能です。</p>
+  </section>
+
+  <!-- ================= ARTIST ================= -->
+  <section id="artist" class="rev-init">
+    <p class="eyebrow">SYS.04 // ARTIST</p>
+    <h2>アーティスト紹介</h2>
+    <p class="lead">特別な価格でモニター様募集中です！気になる見習い彫師にご連絡下さい！</p>
+
+    <div class="artist-grid">
+      <article class="panel artist-card">
+        <p class="role">ARTIST</p>
+        <h3>Non</h3>
+        <p class="kana">-のん-</p>
+        <p>TATTOO STUDIO Gukky（タトゥースタジオグッキー）の【のん】と申します。<strong>青森県出身。活動歴は2026年で11年目</strong>となります。大きなサイズから小さいものまで彫っています。お問い合わせ下さい。</p>
+        <p>見習い彫師3名おりまして、特別な価格でのご案内が可能ですので、気になる方は気軽にお問い合わせ下さい。</p>
+        <p style="font-size:12.5px">すきなもの：クリーチャー、ギレルモ・デル・トロ、ワッペン、エイリアン、サイバーパンク、緊縛、夜景、気持ち悪いもの、ダークな世界観、少し可哀想だと思えるもの、大福、お酒全般、ジャスミン茶</p>
+        <p style="font-size:13px">✳︎問い合わせ✳︎ InstagramのDMからでもOK！／LINE ID : gukky.／TEL : 090-9421-9011<br>相談だけでも大歓迎です。沢山のご予約お待ちしております。</p>
+        <div class="links">
+          <a class="chip" href="https://line.me/ti/p/C4Vn2cwUj_" target="_blank" rel="noopener">▸ NonのLINE追加</a>
+          <a class="chip" href="https://www.instagram.com/tattoo_studio_gukky" target="_blank" rel="noopener">▸ 作品を見る（Instagram）🌹</a>
+        </div>
+      </article>
+
+      <article class="panel artist-card">
+        <p class="role">TRAINEE</p>
+        <h3>Ryusei</h3>
+        <p class="kana">-りゅうせい-</p>
+        <p>こんにちは！のんさんの元で見習い彫師として修行中のりゅうせいです！<strong>静岡出身静岡育ちです🗻</strong> 数多くいる彫り師の中から僕を選んでくださったお客様に喜びを与えれるような作品を作っていけるように日々頑張ります！これからもよろしくお願いします^^ モニター様は常に募集しておりますので、InstagramのDMからご予約お待ちしております！</p>
+        <div class="quote"><b>── Nonより ──</b><br>りゅうせいは、お客様との距離感を大切にしている見習い彫り師です。コミュニケーション力が高く、明るく親しみやすい人柄で、自然と会話が弾みます！いつもスタジオを盛り上げて雰囲気を和やかにしてくれている存在です。お客様からは「気持ちよく施術できた」「楽しい時間だった」と好評を頂いております。礼儀も正しく気遣いもできるため、初めての方でも安心してご相談頂けます。<b>見習いのためモニター料金は¥4,000〜です。</b></div>
+        <div class="links">
+          <a class="chip" href="https://www.instagram.com/tattoo__ryusei" target="_blank" rel="noopener">▸ RyuseiのInstagram🌱</a>
+        </div>
+      </article>
+
+      <article class="panel artist-card">
+        <p class="role">TRAINEE</p>
+        <h3>Daichi</h3>
+        <p class="kana">-だいち-</p>
+        <p>見習い彫師の大地です！<strong>山梨県出身、静岡学園卒。</strong>Nonさんの指導の元、技術・知識ともに日々勉強しながら成長を重ねています。お客様に満足していただけるよう、技術向上に努めます。<strong>リアル系、ブラック&グレーが好きです。</strong>モニター募集してます！詳細はDMまでお願いします！</p>
+        <div class="quote"><b>── Nonから ──</b><br>だいちは、無口で寡黙ですが、話しかけると気さくに話しもできる、優しく落ち着いた雰囲気の見習い彫師です。モニターでご来店されたお客様からは「最初は不安だったけど、すごく上手くてびっくりしました」という声も頂いています。<b>見習いのため料金は¥4,000〜です。</b>「タトゥーが初めてで不安」「まずは試してみたい」そんな方にもおすすめです。ご相談だけでも大歓迎です。</div>
+        <div class="links">
+          <a class="chip" href="https://www.instagram.com/666893.d.tattoo" target="_blank" rel="noopener">▸ DaichiのInstagram🕊️</a>
+        </div>
+      </article>
+
+      <article class="panel artist-card">
+        <p class="role">TRAINEE</p>
+        <h3>Mika</h3>
+        <p class="kana">-みか-</p>
+        <p>初めまして！みかと申します。<strong>子供3人を育てながら、Gukkyで見習いをしています！</strong>私は女性目線で「怖くない」「相談しやすい」施術を心がけています。タトゥーに興味はあるけど、子どもがいるし時間もないし、なんだか不安…という方も多いと思います。私はそんなお客様に寄り添う接客を目指しています！ワンポイントや繊細なデザインが好きですが、大きな作品も受付しています♪ まずはお話だけでも大歓迎です！今の自分に合うタトゥーを、一緒にゆっくり考えましょう。</p>
+        <div class="quote"><b>── Nonから ──</b><br>ミカはやはり女性なので、柔らかい雰囲気で、初めての方や女性のお客様から特に相談されやすいタイプです。「話しやすくて安心しました」という声も沢山頂いています。<b>見習いのため料金は¥3,000〜です。</b>小さなタトゥーからでもお気軽にご相談ください。</div>
+        <div class="links">
+          <a class="chip" href="https://www.instagram.com/tattoo.mika_" target="_blank" rel="noopener">▸ MikaのInstagram🪶</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="panel rev-init" style="margin-top:22px">
+      <p class="eyebrow" style="margin-bottom:14px">GALLERY</p>
+      <p style="color:var(--dim);font-size:14px">各メニュー別の施術写真は、Instagramに多数掲載しております。Tattoo／Jagua Tattoo（針を刺さないので痛みは全くありません）／Fake Tattoo／Skin Cover／アートメイク（眉・アイライン・ほくろ）／Maternity Art の作例をご覧頂けます。</p>
+      <div class="links">
+        <a class="chip" href="https://www.instagram.com/tattoo_studio_gukky/" target="_blank" rel="noopener">▸ Nonの作品を見る（Instagram）</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FLOW ================= -->
+  <section id="flow" class="rev-init">
+    <p class="eyebrow">SYS.05 // RESERVATION FLOW</p>
+    <h2>ご予約から施術までの流れ</h2>
+    <p class="lead">お電話・LINE・InstagramのDM、いずれの方法でもご予約頂けます。</p>
+    <div class="flow">
+      <div class="panel step">
+        <span class="num">01</span>
+        <h3>お問い合わせ</h3>
+        <p>お電話、LINE、DMのいずれかの方法でお問い合わせ下さい。《希望のデザイン、サイズ、部位、希望日時》《施術時間やどのくらい費用がかかるか》など、気になる事を記載の上お問い合わせ頂けますと、ご予約までスムーズです。（返信は遅くなる場合もありますが、必ずご連絡しておりますのでお待ち頂ければ幸いです。）</p>
+      </div>
+      <div class="panel step">
+        <span class="num">02</span>
+        <h3>予約日を決める</h3>
+        <p>希望のデザインやサイズをお聞きした上で、ご予約の空き状況をご案内致します。空きがあれば当日予約も可能です。</p>
+      </div>
+      <div class="panel step">
+        <span class="num">03</span>
+        <h3>デザイン作成</h3>
+        <p>メッセージのやり取りで決定したデザインや、希望されているざっくりしたイメージをこちらでデザインします。完成後は希望であればデザイン送信も出来ますので、事前にデザインのご確認も可能です。</p>
+      </div>
+      <div class="panel step">
+        <span class="num">04</span>
+        <h3>ご来店・施術</h3>
+        <p>予約日にご来店頂き、カウンセリングor施術を行なっていきます。（カウンセリングのみでも可能、カウンセリングと施術を同日も可能です。）</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= NOTES ================= -->
+  <section id="notes" class="rev-init">
+    <p class="eyebrow">SYS.06 // TERMS</p>
+    <h2>来店前の注意事項</h2>
+    <p class="alert">※必ずお読み下さい※</p>
+    <div class="acc">
+      <details open>
+        <summary><span class="code">SEC.A</span> はじめに</summary>
+        <div class="body"><ul>
+          <li>心無いお言葉でのお問い合わせ、非常識な対応をされるお客様はご予約をお断りしております。</li>
+          <li>当店の注意事項を守れない方や精神面で成熟していない方のご予約はお受け致しておりませんのでご了承下さい。</li>
+          <li>お客様には大変ご迷惑お掛け致しますが、自身の家庭の都合で（子供の体調面や保育園等の関係上）ご予約頂いた場合でも当日・前日にこちらから日時変更のお願いをさせて頂く場合が御座います。ご予約の為にお休み等取って頂いたり、予定を空けて頂いたお客様には大変ご迷惑お掛けしてしまう事となりますが、こちらをご理解頂いた上でご予約をお願い致します。（Nonの場合です）</li>
+          <li>曜日や時間に関わらず、お問い合わせの対応が遅れる場合があります。ご了承ください。</li>
+          <li>当店では、ジャグアタトゥーは成人未満でも施術は可能ですが、家族の反対などがある場合はトラブルを避ける為にも施術をお断りさせて頂いております。</li>
+          <li>現在、弟子（男性）と同じスタジオを共有しながら営業中です。ご了承下さい。</li>
+        </ul></div>
+      </details>
+      <details>
+        <summary><span class="code">SEC.B</span> ご予約について</summary>
+        <div class="body"><ul>
+          <li>先約のお客様の施術の進行状況でお時間調度のご案内が難しく、お待ち頂く場合が御座います。日程に余裕を持ってのご予約をお願い致します。</li>
+          <li>ご予約は電話、ライン、メール、InstagramのDMなどからお気軽にお問い合わせ下さい。</li>
+          <li>おひとり様ずつ丁寧に接客・技術を提供しております。無断遅刻、無断キャンセル、前日キャンセル、当日キャンセルされる可能性があるお客様は、他のお客様にご迷惑をお掛けするので申し訳有りませんがご予約をお控え下さい。</li>
+          <li>ご連絡なく来店されなかった場合や、予約時間を過ぎてからの遅刻のご連絡などは、次回からのご予約はお断りさせて頂き、施術は一切致しませんのでご了承下さい。</li>
+          <li>予約時間より連絡がなく、15分過ぎてしまった場合キャンセル扱いとさせて頂きます。また、時間前にご連絡があったとしましても、時間に遅れてしまうとご希望のデザイン・サイズで施術出来なくなる場合があり、ご予約を次回にさせて頂く場合が御座いますのでご注意下さい。</li>
+          <li>ご予約は毎月お一人様1予約とさせて頂いております。続けてご予約をお取りしたい場合、来店時にお願い致します。</li>
+          <li>お問い合わせ頂いた事は大変ありがたいのですが、こちらからのご案内後に返信がなくやり取りがストップしてしまったお客様に関しましては、次回ご予約のご連絡を頂いてもお断りさせて頂く場合があります。</li>
+          <li>予約時間よりも早く来店された場合、先約のお客様の関係上直ぐにご案内が難しい事が有りますので、お車などでお待ち頂いております。出来るだけお時間丁度のご来店をお願い致します。</li>
+        </ul></div>
+      </details>
+      <details>
+        <summary><span class="code">SEC.C</span> 各メニューについて</summary>
+        <div class="body"><ul>
+          <li>汚れてもいい服装でご来店下さい。</li>
+          <li>全メニューにおいて施術予定箇所に酷い日焼け・怪我・完治していない傷などがある場合、施術不可となる場合がありますのでご了承下さい。</li>
+          <li>全メニューにおいてご予約当日に体調が悪い場合、施術は次回にさせて頂きますのでご了承下さい。</li>
+          <li>眉のタトゥーに関しまして、お客様の眉の形を全て当店側がデザインし決定する事はしておりません。まずはお客様の普段の眉のデザイン、または希望のデザインを書いてもらい、修正する箇所があればこちらで修正をし、常にお客様と相談をしながらデザイン決定していく手順で施術を進めさせて頂いております。（可能であれば普段使用しているメイク用品をご持参下さい。）</li>
+          <li>眉のタトゥーとアイラインに関して、施術後は赤みと腫れが見られますので、必要な方は帽子やマスク、サングラスをご持参お願いします。</li>
+          <li>タトゥー・眉・アイライン・ほくろのタトゥーを施術のお客様は、予約の前日は飲酒を控え（施術当日も控えて下さい）、よく睡眠をとり、しっかりと食事を摂ってご来店下さい。</li>
+          <li>タトゥー・眉・アイライン・ほくろのタトゥーを施術のお客様は、当日に免許証・保険証・マイナンバー（保険証の場合は住民票と合わせてお持ち下さい）などの身分を証明できるものを提示して頂きますので必ずお持ち下さい。忘れてしまった場合、施術は出来ませんのでご了承下さい。</li>
+          <li>タトゥー・眉・アイライン・ほくろのタトゥーの場合、18歳未満・高校生の方の施術はお断りしております。</li>
+          <li>施術可能な方…成人であり、精神面で成熟している方、健康体であり、一般常識のある方。（施術を受けるにあたりこちらが相応しくないと判断した場合、お断りさせて頂きます）</li>
+          <li>未成年者及び飲酒している方、薬物依存の方、HIV、肝炎、糖尿病、肝臓病、血液疾患、アレルギーなどの疾患のある方の施術はお断りしております。</li>
+          <li>年齢の偽り・提示情報・同意書への記入情報の偽りが発覚した場合、施術をお断りさせて頂き、他のメニューであっても今後の施術はお断りさせて頂きます。</li>
+          <li>ジャグアタトゥーを施術されたお客様は、施術後6時間程度は入浴や汗をかいたり施術部分を水に濡らしたり出来ませんのでご注意ください。なるべく外出なさらない日にちでのご予約をお勧め致します。</li>
+          <li>ジャグアタトゥー施術のお客様は、希望される部位が強く締めつけられる服装は避け、ゆったりとした服装でご来店下さい。足の甲の場合はサンダルをお勧め致します。</li>
+          <li>ジャグアタトゥーやフェイクタトゥーをイベントに向けて施術希望のお客様は、発色のタイミング、持続の日数が十分に合っているかご確認下さい。※ご相談下さい。</li>
+          <li>ジャグアタトゥーやフェイクタトゥーも本物のタトゥーと同じ扱いになりますので、プール、温泉などのご予定がある方はご注意下さい。</li>
+        </ul></div>
+      </details>
+      <details>
+        <summary><span class="code">SEC.D</span> 当店について</summary>
+        <div class="body"><ul>
+          <li>当店のスタジオの住所は【静岡市駿河区西島446-2】となります。一戸建ての白い外観（玄関に看板あり）です。</li>
+          <li>到着しましたら、必ずインターホンを押してお待ち下さい。場所がわからない場合はご連絡頂ければご案内致します。</li>
+          <li>当店敷地内に無料駐車場が御座います。駐車場所は案内画像をご参照下さい。先約のお客様が停めている場合がありますが、お時間までお待ち頂ければ幸いです。</li>
+          <li>お釣りの準備が十分でない事が御座います。お問い合わせの際に大凡のお見積もり金額が確定している場合、ご来店の際はお釣りのないようにご用意頂ければ幸いです。</li>
+          <li>当店クレジットカードはご利用になれません。<b style="color:var(--rose)">現金のみ</b>となっております。</li>
+        </ul>
+        <p style="margin-top:10px">※不明な点や質問、ご相談が御座いましたらお問い合わせ下さい。</p></div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= ACCESS ================= -->
+  <section id="access" class="rev-init">
+    <p class="eyebrow">SYS.07 // INFORMATION</p>
+    <h2>店舗情報・アクセス</h2>
+    <div class="access-grid" style="margin-top:30px">
+      <div class="panel">
+        <ul class="info-list">
+          <li><span>NAME</span><div><strong>TATTOO STUDIO Gukky</strong>（ﾀﾄｩｰｽﾀｼﾞｵｸﾞｷｰ）</div></li>
+          <li><span>ADDRESS</span><div>〒422-8045 <strong>静岡県静岡市駿河区西島446-2</strong><br>（静岡駅からお車で15分程度です）</div></li>
+          <li><span>PARKING</span><div>無料駐車場有ります。ご予約が確定したお客様に、詳しい場所の説明と駐車場のご案内をさせて頂いております。</div></li>
+          <li><span>BUS</span><div>最寄りバス停【西島】── 静岡駅北口の【1番乗り場】より【大浜行き】のバスにご乗車ください。11駅進み【西島】で下車後、徒歩約5分程度で当店に到着します。</div></li>
+          <li><span>TEL</span><div><strong><a href="tel:090-9421-9011" style="color:var(--jagua);text-decoration:none">090-9421-9011</a></strong></div></li>
+          <li><span>OPEN</span><div><strong>10:00〜</strong>／不定休（毎月の営業日はブログにて更新）</div></li>
+          <li><span>PAYMENT</span><div>現金のみ（クレジットカード不可）</div></li>
+          <li><span>SNS</span><div>Instagramにて当店までの道案内やスタジオの外観・店内の雰囲気のお写真が御座います。</div></li>
+        </ul>
+      </div>
+      <div class="map">
+        <iframe title="TATTOO STUDIO Gukky 地図" src="https://www.google.com/maps?q=34.9438031,138.4070619&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=34.9438031%2C138.4070619&query_place_id=ChIJN7nhCro3GmARsBKRfwGcNRk" target="_blank" rel="noopener">大きな地図で見る ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact" class="rev-init">
+    <p class="eyebrow">SYS.08 // CONTACT</p>
+    <div class="panel contact-panel">
+      <h2>CONNECT WITH US</h2>
+      <p>▼カウンセリング無料▼<br>ご予約、相談、ご質問はこちらからお願い致します。<br>お気軽にお問い合わせください！</p>
+      <p style="margin-top:14px"><a href="#notes" style="color:var(--rose);font-size:13px">※必ずお読み下さい※ 来店前の注意事項 ▸</a></p>
+      <div class="contact-actions">
+        <a class="btn primary" href="https://line.me/ti/p/C4Vn2cwUj_" target="_blank" rel="noopener">▸ NonのLINEで相談・予約</a>
+        <a class="btn ghost" href="https://www.instagram.com/tattoo_studio_gukky" target="_blank" rel="noopener">▸ InstagramからDMする</a>
+      </div>
+      <a class="tel" href="tel:090-9421-9011">TEL 090-9421-9011</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot">
+    <div>
+      <p class="fbrand">TATTOO STUDIO <em style="font-style:normal;color:var(--jagua)">GUKKY</em></p>
+      <p class="meta">SHIZUOKA-SHI SURUGA-KU NISHIJIMA 446-2 ／ 090-9421-9011</p>
+    </div>
+    <div class="socials">
+      <a class="chip" href="https://line.me/ti/p/C4Vn2cwUj_" target="_blank" rel="noopener">LINE</a>
+      <a class="chip" href="https://www.instagram.com/tattoo_studio_gukky" target="_blank" rel="noopener">Instagram</a>
+      <a class="chip" href="https://bas-gukky.crayonsite.com/blog/" target="_blank" rel="noopener">BLOG</a>
+    </div>
+    <p class="meta">© TATTOO STUDIO Gukky — EST.2015 / 11TH ANNIV. 2026 🌹</p>
+  </div>
+</footer>
+
+<a href="#top" class="totop" aria-label="トップへ戻る">▲</a>
+
+<script>
+/*
+  この処理が実行できなくても（＝JSが動かない端末でも）、
+  HTML/CSSのみで「コンテンツの表示」「メニュー開閉」「トップへ戻る」は
+  すべて機能する設計にしています。JSはあくまで見た目の演出強化のみを担当。
+*/
+(function(){
+  try{
+    // フェードイン演出：JSが動く場合のみ 'in' 状態を管理
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:.08});
+    document.querySelectorAll('.rev-init').forEach(function(el){ io.observe(el); });
+
+    // モバイルナビ：リンクをタップしたらメニューを閉じる（CSSのcheckboxをOFFに）
+    var navToggle = document.getElementById('navToggle');
+    document.querySelectorAll('#navlist a').forEach(function(a){
+      a.addEventListener('click', function(){ if(navToggle) navToggle.checked = false; });
+    });
+
+    // トップへ戻るボタンの表示制御
+    var totop = document.querySelector('.totop');
+    window.addEventListener('scroll', function(){
+      totop.classList.toggle('show', window.scrollY > 400);
+    });
+  }catch(err){
+    // 何らかの理由でJSが失敗しても、HTML/CSSだけで表示・操作は成立する
+    console.warn('enhancement script failed, falling back to no-JS behavior', err);
+  }
+})();
+</script>
+</body>
+</html>
